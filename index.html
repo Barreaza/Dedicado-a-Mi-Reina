@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Tus flores amarillas
+    </title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #4dabf7, #87ceeb);
+        }
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .message-box {
+            background-color: rgba(252, 227, 6, 0.493);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        p {
+            color: #000000d8;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        .sunflower {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20vh) rotate(5deg);
+            }
+            50% {
+                transform: translateY(-40vh) rotate(-5deg);
+            }
+            75% {
+                transform: translateY(-60vh) rotate(5deg);
+            }
+        }
+
+        /* New styles for the dropdown menu */
+        .menu-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+        .menu-button {
+            background-color: #ffd700;
+            color: #1f1c1cde;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .menu-button:hover {
+            background-color: #ffeb3b;
+        }
+        .menu-content {
+            display: none;
+            background-color: rgba(36, 23, 110, 0.884);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(73, 186, 238, 0.911);
+            border-radius: 5px;
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+        .menu-content a {
+            color: #17f6fd;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .menu-content a:hover {
+            background-color: #2a8eb6;
+        }
+        .show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message">
+            <h1>Te Amo Espero te guste este detalle mi reina </h1>
+            <div class="message-box">
+                <p>Aunque no te haya podido regalar un detalle la fecha indicada, quiero darte este detallito muy bonito que hice para ti. Te amo, espero que te gusten Mi Reina Hermosa.</p>
+            </div>
+        </div>
+    </div>
+
+<!-- Accessible dropdown menu -->
+<div class="menu-container">
+    <button class="menu-button" aria-haspopup="true" aria-expanded="false" onclick="toggleMenu(this)">Menú</button>
+    <div id="dropdownMenu" class="menu-content" role="menu" aria-labelledby="menuButton">
+        <button role="menuitem" onclick="showContent('love')">Lo que amo de ella</button>
+        <button role="menuitem" onclick="showContent('goals')">Objetivos juntos</button>
+        <button role="menuitem" onclick="showContent('about')">Sobre nosotros</button>
+    </div>
+</div>
+
+
+    <script>
+        function createSunflower() {
+            const sunflower = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            sunflower.setAttribute("viewBox", "0 0 100 100");
+            sunflower.setAttribute("width", "100");
+            sunflower.setAttribute("height", "100");
+            sunflower.innerHTML = `
+                <circle cx="50" cy="50" r="20" fill="#654321" />
+                ${Array(12).fill().map((_, i) => `
+                    <path d="M50 30C55 25 60 20 65 25C70 30 70 40 65 45C60 50 55 45 50 40Z" 
+                          fill="#FFD700" 
+                          transform="rotate(${i * 30} 50 50)" />
+                `).join('')}
+                <path d="M50 70L52 100M48 100L50 70" stroke="#4CAF50" stroke-width="2" />
+            `;
+            return sunflower;
+        }
+
+        function addSunflower() {
+            const container = document.querySelector('.container');
+            const sunflowerWrapper = document.createElement('div');
+            sunflowerWrapper.className = 'sunflower';
+            sunflowerWrapper.style.left = `${Math.random() * 100}%`;
+            sunflowerWrapper.style.bottom = `${Math.random() * 20 - 10}%`;
+            const scale = 0.5 + Math.random() * 0.5;
+            const rotation = Math.random() * 360;
+            sunflowerWrapper.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+            
+            const animationDuration = 15 + Math.random() * 15;
+            const animationDelay = Math.random() * -15;
+            sunflowerWrapper.style.animation = `float ${animationDuration}s ease-in-out ${animationDelay}s infinite`;
+
+            const sunflower = createSunflower();
+            sunflowerWrapper.appendChild(sunflower);
+            container.appendChild(sunflowerWrapper);
+
+            setTimeout(() => {
+                sunflowerWrapper.remove();
+            }, animationDuration * 1000);
+        }
+
+        // Initial sunflowers
+        for (let i = 0; i < 30; i++) {
+            addSunflower();
+        }
+
+        // Add new sunflower every 500ms
+        setInterval(addSunflower, 500);
+
+// Accessible dropdown menu functions
+function toggleMenu(button) {
+            const menu = document.getElementById("dropdownMenu");
+            const isExpanded = button.getAttribute("aria-expanded") === "true";
+            button.setAttribute("aria-expanded", !isExpanded);
+            menu.classList.toggle("show");
+
+            if (!isExpanded) {
+                const firstItem = menu.querySelector("button");
+                if (firstItem) firstItem.focus();
+            }
+        }
+
+        function showContent(section) {
+            let content = '';
+            switch(section) {
+                case 'love':
+                    content = 'Su sonrisa, su bondad, su fortaleza, sus ganas de salir adelante aun en malos momentos, su corazon por ver a los demas felices y sus sentimientos que tocaron mi corazon y unos ojos tan hermosos color miel una mirada la cual me enamore y siempre querré ver cada amanecer junto a tí...';
+                    break;
+                case 'goals':
+                    content = 'Viajar por el mundo, construir un hogar, crecer juntos, poder cumplir nuestras metas trazadas...';
+                    break;
+                case 'about':
+                    content = 'Una historia que comenzó una noche que no la considero casualidad porque nosotros estabamos en el lugar y el momento correcto para darnos la oportunidad pues era nuestro detino tenernos mutuamente en amor para cuidarnos y protegernos y sobre todo amarnos sobre cualquier circunstancia... Te Amo Mi Reina';
+                    break;
+            }
+            document.querySelector('.message-box p').textContent = content;
+            document.querySelector('.menu-button').focus();
+            toggleMenu(document.querySelector('.menu-button'));
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-button') && !event.target.closest('.menu-content')) {
+                var dropdowns = document.getElementsByClassName("menu-content");
+                var buttons = document.getElementsByClassName("menu-button");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                        buttons[i].setAttribute("aria-expanded", "false");
+                    }
+                }
+            }
+        }
+
+        // Keyboard navigation for the menu
+        document.addEventListener('keydown', function(e) {
+            const menu = document.getElementById("dropdownMenu");
+            if (!menu.classList.contains('show')) return;
+
+            const items = Array.from(menu.querySelectorAll('button'));
+            const index = items.indexOf(document.activeElement);
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const nextIndex = (index + 1) % items.length;
+                items[nextIndex].focus();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prevIndex = (index - 1 + items.length) % items.length;
+                items[prevIndex].focus();
+            } else if (e.key === 'Escape') {
+                toggleMenu(document.querySelector('.menu-button'));
+            }
+        });
+    </script>
+</body>
+</html>
